@@ -3992,7 +3992,7 @@ int CGitStatusListCtrl::UpdateFileList(git_revnum_t hash,CTGitPathList *list)
 			g_Git.Run(cmd, &cmdout);
 
 			CTGitPathList conflictlist;
-			conflictlist.ParserFromLog(cmdout);
+			conflictlist.ParserFromLog(cmdout); // why not ParserFromLs
 			for (int i = 0; i < conflictlist.GetCount(); ++i)
 			{
 				CTGitPath *p=m_StatusFileList.LookForGitPath(conflictlist[i].GetGitPathString());
@@ -4018,7 +4018,7 @@ int CGitStatusListCtrl::UpdateFileList(git_revnum_t hash,CTGitPathList *list)
 			g_Git.Run(cmd, &cmdout);
 
 			CTGitPathList deletelist;
-			deletelist.ParserFromLog(cmdout, true);
+			deletelist.ParserFromLog(cmdout, true); // why not ParserFromLs - just null separated?!
 			BOOL bDeleteChecked = FALSE;
 			int deleteFromIndex = 0;
 			for (int i = 0; i < deletelist.GetCount(); ++i)
