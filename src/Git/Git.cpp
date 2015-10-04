@@ -2079,6 +2079,7 @@ BOOL CGit::CheckMsysGitDir(BOOL bFallback)
 	this->m_Environment.clear();
 	m_Environment.CopyProcessEnvironment();
 	m_Environment.SetEnv(_T("GIT_DIR"), nullptr); // Remove %GIT_DIR% before executing git.exe
+	m_Environment.SetEnv(_T("GIT_WORK_TREE"), nullptr); // Remove %GIT_WORK_TREE% before executing git.exe
 
 	// set HOME if not set already
 	size_t homesize;

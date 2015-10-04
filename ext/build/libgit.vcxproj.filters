@@ -842,6 +842,21 @@
     <ClCompile Include="..\tgit\ewah\ewah_rlw.c">
       <Filter>git\ewah</Filter>
     </ClCompile>
+    <ClCompile Include="..\tgit\tempfile.c">
+      <Filter>git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tgit\submodule-config.c">
+      <Filter>git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tgit\ref-filter.c">
+      <Filter>git</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tgit\builtin\pull.c">
+      <Filter>BuildIn</Filter>
+    </ClCompile>
+    <ClCompile Include="..\tgit\builtin\am.c">
+      <Filter>BuildIn</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\tgit\compat\msvc.h">
@@ -1164,6 +1179,15 @@
     </ClInclude>
     <ClInclude Include="..\tgit\ewah\ewok_rlw.h">
       <Filter>Header Files\ewah</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tgit\tempfile.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tgit\submodule-config.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="..\tgit\ref-filter.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
