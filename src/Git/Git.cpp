@@ -842,7 +842,7 @@ int CGit::GetCurrentBranchFromFile(const CString &sProjectRoot, CString &sBranch
 		return -1;
 
 	CString sDotGitPath;
-	if (!GitAdminDir::GetAdminDirPath(sProjectRoot, sDotGitPath))
+	if (!GitAdminDir::GetWorktreeAdminDirPath(sProjectRoot, sDotGitPath))
 		return -1;
 
 	CString sHeadFile = sDotGitPath + _T("HEAD");
@@ -1547,7 +1547,7 @@ bool CGit::BranchTagExists(const CString& name, bool isBranch /*= true*/)
 CString CGit::DerefFetchHead()
 {
 	CString dotGitPath;
-	GitAdminDir::GetAdminDirPath(m_CurrentDir, dotGitPath);
+	GitAdminDir::GetWorktreeAdminDirPath(m_CurrentDir, dotGitPath);
 	std::ifstream fetchHeadFile((dotGitPath + L"FETCH_HEAD").GetString(), std::ios::in | std::ios::binary);
 	int forMergeLineCount = 0;
 	std::string line;

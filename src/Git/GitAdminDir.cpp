@@ -145,6 +145,36 @@ bool GitAdminDir::HasAdminDir(const CString& path, bool bDir, CString* ProjectTo
  */
 bool GitAdminDir::GetAdminDirPath(const CString &projectTopDir, CString& adminDir)
 {
+	CString wtAdminDir;
+	if (!GetWorktreeAdminDirPath(projectTopDir, wtAdminDir))
+		return false;
+
+	CString pathToCommonDir = wtAdminDir + _T("commondir");
+	if (!PathFileExists(pathToCommonDir))
+	{
+		adminDir = wtAdminDir;
+		return true;
+	}
+
+	FILE* pFile = _tfsopen(pathToCommonDir, _T("r"), SH_DENYWR);
+	if (!pFile)
+		return false;
+
+	int size = 65536;
+	std::unique_ptr<char[]> buffer(new char[size]);
+	int length = (int)fread(buffer.get(), sizeof(char), size, pFile);
+	fclose(pFile);
+	CStringA commonDirA(buffer.get(), length);
+	CString commonDir = CUnicodeUtils::GetUnicode(commonDirA);
+	if (PathIsRelative(commonDir))
+		adminDir = wtAdminDir + commonDir;
+	else
+		adminDir = commonDir;
+	return true;
+}
+
+bool GitAdminDir::GetWorktreeAdminDirPath(const CString &projectTopDir, CString& adminDir)
+{
 	if (IsBareRepo(projectTopDir))
 	{
 		adminDir = projectTopDir;
