@@ -2138,6 +2138,15 @@ BOOL CGit::CheckMsysGitDir(BOOL bFallback)
 	CTraceToOutputDebugString::Instance()(_T(__FUNCTION__) _T(": ms_MsysGitRootDir = %s\n"), (LPCTSTR)CGit::ms_MsysGitRootDir);
 	CTraceToOutputDebugString::Instance()(_T(__FUNCTION__) _T(": System config = %s\n"), (LPCTSTR)g_Git.GetGitSystemConfig());
 
+	m_Environment.AddToPath(CGit::ms_LastMsysGitDir);
+	m_Environment.AddToPath((CString)CRegString(REG_MSYSGIT_EXTRA_PATH, _T(""), FALSE));
+
+	if (this != &g_Git)
+	{
+		m_bInitialized = TRUE;
+		return true;
+	}
+
 	// Configure libgit2 search paths
 	SetLibGit2SearchPath(GIT_CONFIG_LEVEL_PROGRAMDATA, CTGitPath(g_Git.GetGitSystemConfig()).GetContainingDirectory().GetWinPathString());
 	SetLibGit2SearchPath(GIT_CONFIG_LEVEL_SYSTEM, CTGitPath(g_Git.GetGitSystemConfig()).GetContainingDirectory().GetWinPathString());
@@ -2151,12 +2160,10 @@ BOOL CGit::CheckMsysGitDir(BOOL bFallback)
 	else
 		SetLibGit2TemplatePath(CGit::ms_MsysGitRootDir + _T("usr\\share\\git-core\\templates"));
 
-	m_Environment.AddToPath(CGit::ms_LastMsysGitDir);
-	m_Environment.AddToPath((CString)CRegString(REG_MSYSGIT_EXTRA_PATH, _T(""), FALSE));
-
 #if !defined(TGITCACHE) && !defined(TORTOISESHELL)
-	// register filter only once
-	if (!git_filter_lookup("filter"))
+	// unregister filter then re-register filter
+	if (git_filter_lookup("filter") && git_filter_unregister("filter") < 0)
+		return FALSE;
 	{
 		static const CString binDirPrefixes[] = { L"\\..\\usr\\bin", L"\\..\\bin", L"" };
 		CString sh;
