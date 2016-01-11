@@ -276,6 +276,22 @@ TEST(CGit, GetShortName)
 	EXPECT_EQ(CGit::BISECT_BAD, type);
 
 	type = CGit::UNKNOWN;
+	EXPECT_STREQ(_T("old"), CGit::GetShortName(_T("refs/bisect/old"), &type, _T("old"), _T("new")));
+	EXPECT_EQ(CGit::BISECT_GOOD, type);
+
+	type = CGit::UNKNOWN;
+	EXPECT_STREQ(_T("old"), CGit::GetShortName(_T("refs/bisect/old-5809ac97a1115a8380b1d6bb304b62cd0b0fa9bb"), &type, _T("old"), _T("new")));
+	EXPECT_EQ(CGit::BISECT_GOOD, type);
+
+	type = CGit::UNKNOWN;
+	EXPECT_STREQ(_T("new"), CGit::GetShortName(_T("refs/bisect/new"), &type, _T("old"), _T("new")));
+	EXPECT_EQ(CGit::BISECT_BAD, type);
+
+	type = CGit::UNKNOWN;
+	EXPECT_STREQ(_T("new"), CGit::GetShortName(_T("refs/bisect/new-5809ac97a1115a8380b1d6bb304b62cd0b0fd9bb"), &type, _T("old"), _T("new")));
+	EXPECT_EQ(CGit::BISECT_BAD, type);
+
+	type = CGit::UNKNOWN;
 	EXPECT_STREQ(_T("ab"), CGit::GetShortName(_T("refs/notes/ab"), &type));
 	EXPECT_EQ(CGit::NOTES, type);
 
