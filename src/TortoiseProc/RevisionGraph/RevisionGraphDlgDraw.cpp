@@ -1073,7 +1073,7 @@ void CRevisionGraphWnd::DrawTexts (GraphicsDevice& graphics, const CRect& /*logR
 				COLORREF colRef = RGB(224, 224, 224);
 
 				CGit::REF_TYPE refType;
-				shortname = CGit::GetShortName(str, &refType);
+				shortname = CGit::GetShortName(str, &refType, m_BisectGood, m_BisectBad);
 				switch (refType)
 				{
 				case CGit::REF_TYPE::LOCAL_BRANCH:
@@ -1328,11 +1328,13 @@ void CRevisionGraphWnd::SetNodeRect(GraphicsDevice& graphics, ogdf::node *pnode,
 			double xmax=0;
 			double ymax=0;
 			int lines =0;
+			CString bisectGood, bisectBad;
+			g_Git.GetBisectTerms(bisectGood, bisectBad);
 			for (size_t i = 0; i < m_HashMap[rev].size(); ++i)
 			{
 				RectF rect;
 				CString shortref = m_HashMap[rev][i];
-				shortref = CGit::GetShortName(shortref,NULL);
+				shortref = CGit::GetShortName(shortref, NULL, bisectGood, bisectBad);
 				if(graphics.pDC)
 				{
 					Gdiplus::Font font(fontname, (REAL)m_nFontSize, FontStyleRegular);

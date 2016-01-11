@@ -2771,7 +2771,7 @@ int CGit::GetShortHASHLength() const
 	return 7;
 }
 
-CString CGit::GetShortName(const CString& ref, REF_TYPE *out_type)
+CString CGit::GetShortName(const CString& ref, REF_TYPE *out_type, const CString& bisectGood, const CString& bisectBad)
 {
 	CString str=ref;
 	CString shortname;
@@ -2799,16 +2799,17 @@ CString CGit::GetShortName(const CString& ref, REF_TYPE *out_type)
 	}
 	else if (CGit::GetShortName(str, shortname, _T("refs/bisect/")))
 	{
-		if (shortname.Find(_T("good")) == 0)
+		TCHAR c;
+		if (shortname.Find(bisectGood) == 0 && ((c = shortname.GetAt(bisectGood.GetLength())) == '-' || c == '\0'))
 		{
 			type = CGit::BISECT_GOOD;
-			shortname = _T("good");
+			shortname = bisectGood;
 		}
 
-		if (shortname.Find(_T("bad")) == 0)
+		if (shortname.Find(bisectBad) == 0 && ((c = shortname.GetAt(bisectBad.GetLength())) == '-' || c == '\0'))
 		{
 			type = CGit::BISECT_BAD;
-			shortname = _T("bad");
+			shortname = bisectBad;
 		}
 	}
 	else if (CGit::GetShortName(str, shortname, _T("refs/notes/")))
@@ -3321,4 +3322,33 @@ int CGit::IsRebaseRunning()
 	if (PathIsDirectory(adminDir + L"rebase-apply") || PathIsDirectory(adminDir + L"tgitrebase.active"))
 		return 1;
 	return 0;
+}
+
+void CGit::GetBisectTerms(CString& good, CString& bad)
+{
+	good = _T("good");
+	bad = _T("bad");
+
+	CString adminDir;
+	if (!GitAdminDir::GetAdminDirPath(g_Git.m_CurrentDir, adminDir))
+		return;
+
+	CString termsFile = adminDir + _T("\\BISECT_TERMS");
+	FILE *fp = NULL;
+	_tfopen_s(&fp, termsFile, _T("rb"));
+	if (!fp)
+		return;
+	char badA[MAX_PATH] = { 0 };
+	fgets(badA, MAX_PATH, fp);
+	size_t len = strlen(badA);
+	if (len > 0 && badA[len - 1] == '\n')
+		badA[len - 1] = '\0';
+	char goodA[MAX_PATH] = { 0 };
+	fgets(goodA, MAX_PATH, fp);
+	len = strlen(goodA);
+	if (len > 0 && goodA[len - 1] == '\n')
+		goodA[len - 1] = '\0';
+	fclose(fp);
+	bad = CUnicodeUtils::GetUnicode(badA);
+	good = CUnicodeUtils::GetUnicode(goodA);
 }

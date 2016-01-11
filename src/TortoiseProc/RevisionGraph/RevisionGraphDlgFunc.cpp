@@ -418,7 +418,7 @@ STRING_VECTOR CRevisionGraphWnd::GetFriendRefNames(ogdf::node v, CGit::REF_TYPE 
 		for (size_t i = 0; i < all.size(); ++i)
 		{
 			CGit::REF_TYPE refType;
-			CString shortName = CGit::GetShortName(all[i], &refType);
+			CString shortName = CGit::GetShortName(all[i], &refType, m_BisectGood, m_BisectBad);
 			if (refTypes == NULL)
 				list.push_back(shortName);
 			else

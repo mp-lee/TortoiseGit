@@ -40,12 +40,13 @@ bool BisectCommand::Execute()
 	else if ((this->parser.HasKey(_T("good")) || this->parser.HasKey(_T("bad")) || this->parser.HasKey(_T("reset"))) && path.IsBisectActive())
 	{
 		CString op;
+		CString dummy;
 		CString ref;
 
 		if (this->parser.HasKey(_T("good")))
-			op = _T("good");
+			g_Git.GetBisectTerms(op, dummy);
 		else if (this->parser.HasKey(_T("bad")))
-			op = _T("bad");
+			g_Git.GetBisectTerms(dummy, op);
 		else if (this->parser.HasKey(_T("reset")))
 			op = _T("reset");
 

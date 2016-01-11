@@ -453,6 +453,7 @@ public:
 
 		FetchRemoteList();
 		FetchTrackingBranchList();
+		g_Git.GetBisectTerms(m_BisectGood, m_BisectBad);
 	}
 	void StartAsyncDiffThread();
 	void StartLoadingThread();
@@ -670,4 +671,7 @@ protected:
 	char                m_szTip[8192];
 	std::map<CString, CRect> m_RefLabelPosMap; // ref name vs. label position
 	int					m_OldTopIndex;
+
+	CString				m_BisectGood;
+	CString				m_BisectBad;
 };

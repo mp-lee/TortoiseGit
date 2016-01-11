@@ -164,6 +164,7 @@ public:
 		m_CurrentBranch=g_Git.GetCurrentBranch();
 		if (g_Git.GetHash(m_HeadHash, _T("HEAD")))
 			MessageBox(g_Git.GetGitLastErr(_T("Could not get HEAD hash.")), _T("TortoiseGit"), MB_ICONERROR);
+		g_Git.GetBisectTerms(m_BisectGood, m_BisectBad);
 	}
 
 	std::auto_ptr<CFuture<bool>> updateJob;
@@ -246,6 +247,9 @@ protected:
 	ogdf::SugiyamaLayout m_SugiyamLayout;
 
 	CRect	m_GraphRect;
+
+	CString				m_BisectGood;
+	CString				m_BisectBad;
 
 	int	 GetLeftRightMargin() {return 20;};
 	int	 GetTopBottomMargin() {return 5;};

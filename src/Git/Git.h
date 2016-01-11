@@ -389,6 +389,7 @@ public:
 	/** Returns 0 if no conflict, if a conflict was found and -1 in case of a failure */
 	int HasWorkingTreeConflicts(git_repository* repo);
 	int IsRebaseRunning();
+	void GetBisectTerms(CString& good, CString& bad);
 	int GetRefList(STRING_VECTOR &list);
 
 	int RefreshGitIndex();
@@ -445,7 +446,7 @@ public:
 		return FALSE;
 	}
 
-	static CString GetShortName(const CString& ref, REF_TYPE *type);
+	static CString GetShortName(const CString& ref, REF_TYPE *type, const CString& bisectGood = _T("good"), const CString& bisectBad = _T("bad"));
 
 	static bool LoadTextFile(const CString &filename, CString &msg);
 

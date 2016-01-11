@@ -1344,7 +1344,7 @@ void CGitLogListBase::OnNMCustomdrawLoglist(NMHDR *pNMHDR, LRESULT *pResult)
 							refLabel.singleRemote = false;
 							refLabel.hasTracking = false;
 							refLabel.sameName = false;
-							refLabel.name = CGit::GetShortName(str, &refLabel.refType);
+							refLabel.name = CGit::GetShortName(str, &refLabel.refType, m_BisectGood, m_BisectBad);
 							refLabel.fullName = str;
 
 							switch (refLabel.refType)
@@ -4444,9 +4444,9 @@ bool CGitLogListBase::IsMouseOnRefLabel(const GitRevLoglist* pLogEntry, const PO
 
 		CGit::REF_TYPE foundType;
 		if (pShortname)
-			*pShortname = CGit::GetShortName(m_HashMap[pLogEntry->m_CommitHash][i], &foundType);
+			*pShortname = CGit::GetShortName(m_HashMap[pLogEntry->m_CommitHash][i], &foundType, m_BisectGood, m_BisectBad);
 		else
-			CGit::GetShortName(m_HashMap[pLogEntry->m_CommitHash][i], &foundType);
+			CGit::GetShortName(m_HashMap[pLogEntry->m_CommitHash][i], &foundType, m_BisectGood, m_BisectBad);
 		if (foundType != type && type != CGit::REF_TYPE::UNKNOWN)
 			return false;
 
