@@ -196,10 +196,9 @@ protected:
 		{
 			if (!WarnUserSafeToDifferentDestination(IDS_CONFIG_GLOBAL))
 				return FALSE;
-			if (PathIsDirectory(g_Git.GetGitGlobalXDGConfigPath()))
+			err = git_config_add_file_ondisk(config, CGit::GetGitPathStringA(g_Git.GetGitGlobalConfig()), GIT_CONFIG_LEVEL_GLOBAL, FALSE);
+			if (err == 0 && PathIsDirectory(g_Git.GetGitGlobalXDGConfigPath()))
 				err = git_config_add_file_ondisk(config, CGit::GetGitPathStringA(g_Git.GetGitGlobalXDGConfig()), GIT_CONFIG_LEVEL_XDG, FALSE);
-			else
-				err = git_config_add_file_ondisk(config, CGit::GetGitPathStringA(g_Git.GetGitGlobalConfig()), GIT_CONFIG_LEVEL_GLOBAL, FALSE);
 		}
 		else if (m_cSaveTo.GetCurSel() == 1 && !m_bIsBareRepo && m_bHonorProjectConfig)
 		{
