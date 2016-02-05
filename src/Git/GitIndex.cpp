@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2008-2015 - TortoiseGit
+// Copyright (C) 2008-2016 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -104,8 +104,8 @@ int CGitIndexList::ReadIndex(CString dgitdir)
 	{
 		const git_index_entry *e = git_index_get_byindex(index, i);
 
-		this->at(i).m_FileName.Empty();
-		this->at(i).m_FileName = CUnicodeUtils::GetUnicode(e->path);
+		this->at(i).m_FileNameCase = CUnicodeUtils::GetUnicode(e->path);
+		this->at(i).m_FileName = this->at(i).m_FileNameCase;
 		this->at(i).m_FileName.MakeLower();
 		this->at(i).m_ModifyTime = e->mtime.seconds;
 		this->at(i).m_Flags = e->flags | e->flags_extended;
@@ -252,7 +252,7 @@ int CGitIndexList::GetStatus(const CString& gitdir, CString path, git_wc_status_
 		if (skipWorktree)
 			*skipWorktree = false;
 
-		GetFileStatus(gitdir, (*it).m_FileName, status, time, filesize, callback, pData, NULL, assumeValid, skipWorktree);
+		GetFileStatus(gitdir, (*it).m_FileNameCase, status, time, filesize, callback, pData, NULL, assumeValid, skipWorktree);
 
 		// if a file is assumed valid, we need to inform the caller, otherwise the assumevalid flag might not get to the explorer on first open of a repository
 		if (callback && assumeValid && skipWorktree && (*assumeValid || *skipWorktree))
@@ -643,11 +643,11 @@ int CGitHeadFileList::CallBack(const unsigned char *sha1, const char *base, int 
 	size_t cur = p->size();
 	p->resize(p->size() + 1);
 	p->at(cur).m_Hash = sha1;
-	p->at(cur).m_FileName.Empty();
 
-	CGit::StringAppend(&p->at(cur).m_FileName, (BYTE*)base, CP_UTF8, baselen);
-	CGit::StringAppend(&p->at(cur).m_FileName, (BYTE*)pathname, CP_UTF8);
+	CGit::StringAppend(&p->at(cur).m_FileNameCase, (BYTE*)base, CP_UTF8, baselen);
+	CGit::StringAppend(&p->at(cur).m_FileNameCase, (BYTE*)pathname, CP_UTF8);
 
+	p->at(cur).m_FileName = p->at(cur).m_FileNameCase;
 	p->at(cur).m_FileName.MakeLower();
 
 	//p->at(cur).m_FileName.Replace(_T('/'), _T('\\'));

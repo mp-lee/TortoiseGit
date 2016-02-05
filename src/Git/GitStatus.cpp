@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2008-2015 - TortoiseGit
+// Copyright (C) 2008-2016 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -499,7 +499,7 @@ int GitStatus::EnumDirStatus(const CString &gitdir, const CString &subpath, git_
 						*status = git_wc_status_normal;
 					}
 					if (callback)
-						callback(CombinePath(gitdir, (*it).m_FileName), *status, false, pData, false, skipWorktree);
+						callback(CombinePath(gitdir, (*it).m_FileNameCase), *status, false, pData, false, skipWorktree);
 				}
 			}
 		}
@@ -527,7 +527,7 @@ int GitStatus::EnumDirStatus(const CString &gitdir, const CString &subpath, git_
 				{
 					*status = git_wc_status_deleted;
 					if (callback)
-						callback(CombinePath(gitdir, (*it).m_FileName), *status, false, pData, false, false);
+						callback(CombinePath(gitdir, (*it).m_FileNameCase), *status, false, pData, false, false);
 				}
 			}
 		}
@@ -680,7 +680,7 @@ int GitStatus::GetDirStatus(const CString& gitdir, const CString& subpath, git_w
 		git_wc_status_kind filestatus = git_wc_status_none;
 		bool assumeValid = false;
 		bool skipWorktree = false;
-		GetFileStatus(gitdir, (*it).m_FileName, &filestatus, IsFul, IsRecursive, IsIgnore, nullptr, nullptr, &assumeValid, &skipWorktree);
+		GetFileStatus(gitdir, (*it).m_FileNameCase, &filestatus, IsFul, IsRecursive, IsIgnore, nullptr, nullptr, &assumeValid, &skipWorktree);
 		switch (filestatus)
 		{
 		case git_wc_status_added:

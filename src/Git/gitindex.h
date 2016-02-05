@@ -1,6 +1,6 @@
 // TortoiseGit - a Windows shell extension for easy version control
 
-// Copyright (C) 2008-2015 - TortoiseGit
+// Copyright (C) 2008-2016 - TortoiseGit
 
 // This program is free software; you can redistribute it and/or
 // modify it under the terms of the GNU General Public License
@@ -28,6 +28,7 @@ class CGitIndex
 {
 public:
 	CString    m_FileName;
+	CString    m_FileNameCase;
 	__time64_t	m_ModifyTime;
 	unsigned short m_Flags;
 	CGitHash	m_IndexHash;
@@ -148,6 +149,7 @@ class CGitTreeItem
 {
 public:
 	CString	m_FileName;
+	CString	m_FileNameCase;
 	CGitHash	m_Hash;
 	int			m_Flags;
 };
