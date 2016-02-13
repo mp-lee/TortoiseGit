@@ -35,6 +35,7 @@
 #include "MassiveGitTask.h"
 #include "CommitDlg.h"
 #include "StringUtils.h"
+#include "LogDlg.h"
 
 // CRebaseDlg dialog
 
@@ -107,6 +108,7 @@ BEGIN_MESSAGE_MAP(CRebaseDlg, CResizableStandAloneDialog)
 	ON_BN_CLICKED(IDC_REBASE_SPLIT_COMMIT, &CRebaseDlg::OnBnClickedRebaseSplitCommit)
 	ON_BN_CLICKED(IDC_BUTTON_ONTO, &CRebaseDlg::OnBnClickedButtonOnto)
 	ON_BN_CLICKED(IDHELP, OnHelp)
+	ON_BN_CLICKED(IDC_BUTTON_INSERT, &CRebaseDlg::OnBnClickedButtonInsert)
 END_MESSAGE_MAP()
 
 void CRebaseDlg::CleanUpRebaseActiveFolder()
@@ -2629,5 +2631,34 @@ int	CRebaseDlg::RunGitCmdRetryOrAbort(const CString& cmd)
 		}
 		else
 			return 0;
+	}
+}
+
+void CRebaseDlg::OnBnClickedButtonInsert()
+{
+	// use the git log to allow selection of a version
+	CLogDlg dlg;
+	// tell the dialog to use mode for selecting revisions
+	dlg.SetSelect(true);
+	// only one revision must be selected however
+	dlg.SingleSelection(true);
+	if (dlg.DoModal() == IDOK)
+	{
+
+		GitRevLoglist* pRev = m_CommitList.m_logEntries.m_pLogCache->GetCacheData(CGitHash(dlg.GetSelectedHash()));
+		if (pRev->GetCommit(dlg.GetSelectedHash()))
+			return;
+		if (pRev->GetParentFromHash(pRev->m_CommitHash))
+			return;
+		pRev->GetRebaseAction() = CGitLogListBase::LOGACTIONS_REBASE_PICK;
+		m_CommitList.m_logEntries.push_back(pRev->m_CommitHash);
+		m_CommitList.m_arShownList.Add(pRev);
+		m_CommitList.SetItemCountEx((int)m_CommitList.m_logEntries.size());
+		m_CommitList.Invalidate();
+
+		if (m_CommitList.m_IsOldFirst)
+			this->m_CurrentRebaseIndex = -1;
+		else
+			this->m_CurrentRebaseIndex = (int)m_CommitList.m_logEntries.size();
 	}
 }
