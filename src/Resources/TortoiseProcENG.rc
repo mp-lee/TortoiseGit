@@ -109,6 +109,8 @@ IDI_SNIPPET             ICON                    "snippet.ico"
 IDI_CERTCHECK           ICON                    "certcheck.ico"
 IDI_TORTOISEUDIFF       ICON                    "..\\TortoiseUDiff\\TortoiseUDiff.ico"
 IDI_LIBRARY_WIN10       ICON                    "library-win10.ico"
+IDI_ARROWUP             ICON                    "arrow-up.ico"
+IDI_ARROWDOWN           ICON                    "arrow-down.ico"
 
 /////////////////////////////////////////////////////////////////////////////
 //
@@ -1472,9 +1474,9 @@ BEGIN
     PUSHBUTTON      "...",IDC_BUTTON_BROWSE,352,7,19,15
     CONTROL         "&Onto",IDC_BUTTON_ONTO,"Button",BS_AUTOCHECKBOX | BS_PUSHLIKE | WS_TABSTOP,377,7,32,14
     CONTROL         "",IDC_COMMIT_LIST,"SysListView32",LVS_REPORT | LVS_SHOWSELALWAYS | LVS_ALIGNLEFT | LVS_OWNERDATA | WS_BORDER | WS_TABSTOP,7,25,402,85
-    PUSHBUTTON      "Button1",IDC_SPLITALLOPTIONS,7,113,102,14
-    PUSHBUTTON      "Up",IDC_BUTTON_UP2,116,113,33,14
-    PUSHBUTTON      "Down",IDC_BUTTON_DOWN2,156,113,33,14
+    PUSHBUTTON      "Button1",IDC_SPLITALLOPTIONS,7,112,102,16
+    PUSHBUTTON      "",IDC_BUTTON_UP2,115,112,16,16,BS_ICON
+    PUSHBUTTON      "",IDC_BUTTON_DOWN2,136,112,16,16,BS_ICON
     CONTROL         "&Preserve merges",IDC_REBASE_CHECK_PRESERVEMERGES,
                     "Button",BS_AUTOCHECKBOX | WS_TABSTOP,195,115,96,10
     CONTROL         "&Force Rebase",IDC_REBASE_CHECK_FORCE,"Button",BS_AUTOCHECKBOX | WS_TABSTOP,293,115,116,10

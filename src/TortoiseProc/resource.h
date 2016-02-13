@@ -162,6 +162,8 @@
 #define IDI_TORTOISEUDIFF               356
 #define IDD_SETTINGSUDIFF               357
 #define IDI_LIBRARY_WIN10               358
+#define IDI_ARROWUP                     359
+#define IDI_ARROWDOWN                   360
 #define IDS_CHSTAT_FILECOL              1000
 #define IDS_CHSTAT_WCCOL                1001
 #define IDS_CHSTAT_REPOCOL              1002
@@ -1972,7 +1974,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        359
+#define _APS_NEXT_RESOURCE_VALUE        361
 #define _APS_NEXT_COMMAND_VALUE         32874
 #define _APS_NEXT_CONTROL_VALUE         1834
 #define _APS_NEXT_SYMED_VALUE           201

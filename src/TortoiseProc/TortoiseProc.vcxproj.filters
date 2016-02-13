@@ -2076,6 +2076,12 @@
     <Image Include="..\Resources\library-win10.ico">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="..\Resources\arrow-up.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="..\Resources\arrow-down.ico">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
   <ItemGroup>
     <None Include="..\Resources\bin167.avi">

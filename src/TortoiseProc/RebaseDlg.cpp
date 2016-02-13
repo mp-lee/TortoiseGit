@@ -335,6 +335,9 @@ BOOL CRebaseDlg::OnInitDialog()
 	if (GetDlgItem(IDC_REBASE_CONTINUE)->IsWindowEnabled() && m_bRebaseAutoStart)
 		this->PostMessage(WM_COMMAND, MAKELONG(IDC_REBASE_CONTINUE, BN_CLICKED), (LPARAM)GetDlgItem(IDC_REBASE_CONTINUE)->GetSafeHwnd());
 
+	::SendMessage(GetDlgItem(IDC_BUTTON_UP2)->GetSafeHwnd(), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(HICON)::LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ARROWUP), IMAGE_ICON, 16, 16, 0));
+	::SendMessage(GetDlgItem(IDC_BUTTON_DOWN2)->GetSafeHwnd(), BM_SETIMAGE, IMAGE_ICON, (LPARAM)(HICON)::LoadImage(AfxGetResourceHandle(), MAKEINTRESOURCE(IDI_ARROWDOWN), IMAGE_ICON, 16, 16, 0));
+
 	return TRUE;
 }
 // CRebaseDlg message handlers
